@@ -1,75 +1,46 @@
-package br.ufpb.sistime;
+package model;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Time {
-	private List<Jogador> jogadores;
-	private final int qtdJogadores = 11;
-	private String nomeTime;
-	private int vitoria, empate, derrota, pontos;
 	
-	public Time(String nomeTime){
-		this.nomeTime = nomeTime;
-		jogadores = new ArrayList();
-		inicializarJogadores();
-	}
+	/**
+	 * @author Elizio e Nael 
+	 * Classe respossável por armazenar as informações dos times
+	 * 
+	 */
+	private String nome;
+	private ArrayList<Jogador> jogadores = new ArrayList<Jogador>();
 	
-	
-	public int getVitoria() {
-		return vitoria;
-	}
-
-	public void setVitoria(int vitoria) {
-		this.vitoria = vitoria;
-	}
-
-	public int getEmpate() {
-		return empate;
-	}
-
-	public void setEmpate(int empate) {
-		this.empate = empate;
-	}
-
-	public int getDerrota() {
-		return derrota;
-	}
-
-	public void setDerrota(int derrota) {
-		this.derrota = derrota;
-	}
-
-	
-	
-	public String getNomeTime() {
-		return nomeTime;
+	/**
+	 * @author Elizio e Nael
+	 * 
+	 * Método construtor de Time
+	 */
+	public Time(String nome) {
+		this.nome = nome;
 	}
 	
-	public void setNomeTime(String nomeTime) {
-		this.nomeTime = nomeTime;
+	/**
+	 * @author Elizio e Nael
+	 * 
+	 * Método que recebe uma instância de um jogador e adiciona ele a lista de jogadores
+	 */
+	public void adicionarJogar(Jogador jogador) {
+		jogadores.add(jogador);
+	}
+	public String getNome() {
+		return nome;
+	}
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+	public ArrayList<Jogador> getJogadores() {
+		return jogadores;
+	}
+	public void setJogadores(ArrayList<Jogador> jogadores) {
+		this.jogadores = jogadores;
 	}
 	
-
-	public int getPontos() {
-		return pontos;
-	}
-
-	public void setPontos(int pontos) {
-		this.pontos = pontos;
-	}
-
-	public void inicializarJogadores(){
-		for(int k = 0; k < qtdJogadores; k++){
-			Jogador j = new Jogador();
-			jogadores.add(j);
-		}
-	}
-	
-	public String toString(){
-		return "Time "+this.nomeTime+ " Quantidade de pontos: "+this.getPontos()+"\nVitórias: "+this.vitoria+ "\n"
-				+ "Empates: "+this.empate+ "\nDerrotas: "+this.derrota;
-		
-	}
 
 }

@@ -1,73 +1,52 @@
-package br.ufpb.sistime;
+package model;
 
+/**@author Elizio e Nael
+ * Classe responsável por guardar os dados das partidas
+ * 
+ */
 public class Partida {
-	private Time timeCasa, timeVis;
-	private int qtdGolsTimeCasa, qtdGolsTimeVis;
-	private String resultado;
+	private Time time_da_casa;
+	private Time time_visitande;
+	private int gols_da_da_casa, gols_do_visitabte;
 	
-	public int getQtdGolsTimeVis() {
-		return qtdGolsTimeVis;
+	/**@author Elizio e nael
+	 * Método construtor da classe partida
+	 * 
+	 */
+	public Partida(Time timec, Time timev, int gc, int gv) {
+		this.time_da_casa = timec;
+		this.time_visitande = timev;
+		this.setGols_da_da_casa(gc);
+		this.gols_do_visitabte = gv;
 	}
-	public void setQtdGolsTimeVis(int qtdGolsTimeVis) {
-		this.qtdGolsTimeVis = qtdGolsTimeVis;
-	}
-	public Partida(Time timeCasa, Time timeVis, int qtdGolsTimeCasa, int qtdGolsTimeVis){
-		this.timeCasa = timeCasa;
-		this.timeVis = timeVis;
-		this.qtdGolsTimeCasa = qtdGolsTimeCasa;
-		this.qtdGolsTimeVis = qtdGolsTimeVis;
-	}
-	public void Resultado(){
-		if(qtdGolsTimeCasa > qtdGolsTimeVis){
-			timeCasa.setPontos(timeCasa.getPontos()+ 3);
-			timeCasa.setVitoria(timeCasa.getVitoria()+ 1);
-			timeVis.setDerrota(timeVis.getDerrota() + 1);
-			resultado = "Vencedor: "+timeCasa.toString();
-			
-		}else if(qtdGolsTimeVis > qtdGolsTimeCasa){
-			timeVis.setPontos(timeVis.getPontos()+ 3);
-			timeVis.setVitoria(timeVis.getVitoria()+ 1);
-			timeCasa.setDerrota(timeCasa.getDerrota() + 1);
-			resultado = "Vencedor: "+timeVis.toString();
-			
-		}else{
-			timeCasa.setPontos(timeCasa.getPontos() + 1);
-			timeVis.setPontos(timeVis.getPontos() + 1);
-			timeCasa.setEmpate(timeCasa.getEmpate()+ 1);
-			timeVis.setEmpate(timeVis.getEmpate() + 1);
-			resultado = "Empate";
-		}
-}	
-
-	public Time getTimeCasa() {
-		return timeCasa;
-	}
-
-	public void setTimeCasa(Time timeCasa) {
-		this.timeCasa = timeCasa;
-	}
-
-	public Time getTimeVis() {
-		return timeVis;
-	}
-
-	public void setTimeVis(Time timeVis) {
-		this.timeVis = timeVis;
-	}
-
-	public String getResultado() {
-		return resultado;
-	}
-
-	public void setResultado(String resultado) {
-		this.resultado = resultado;
-	}
-	public int getQtdGolsTimeCasa() {
-		return qtdGolsTimeCasa;
-	}
-	public void setQtdGolsTimeCasa(int qtdGolsTimeCasa) {
-		this.qtdGolsTimeCasa = qtdGolsTimeCasa;
-	}
-
 	
+	/**@author Elizio e nael
+	 * Métodos getters e setters
+	 * 
+	 */
+	public Time getTime_da_casa() {
+		return time_da_casa;
+	}
+	public void setTime_da_casa(Time time_da_casa) {
+		this.time_da_casa = time_da_casa;
+	}
+	public Time getTime_visitande() {
+		return time_visitande;
+	}
+	public void setTime_visitande(Time time_visitande) {
+		this.time_visitande = time_visitande;
+	}
+	public int getGols_do_visitabte() {
+		return gols_do_visitabte;
+	}
+	public void setGols_do_visitabte(int gols_do_visitabte) {
+		this.gols_do_visitabte = gols_do_visitabte;
+	}
+	public int getGols_da_da_casa() {
+		return gols_da_da_casa;
+	}
+	public void setGols_da_da_casa(int gols_da_da_casa) {
+		this.gols_da_da_casa = gols_da_da_casa;
+	}
+
 }

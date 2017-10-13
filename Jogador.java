@@ -1,38 +1,44 @@
-package br.ufpb.sistime;
+package model;
 
+/**@author Elizio Nael
+ * Classe responsável por guardar as informações de um jogador
+ * 
+ */
 public class Jogador {
 	private String nome;
-	private int numero;
-	private Posicao pos;
+	private String numero;
+	private String posicao;
 	
-	public Jogador(String nome, int numero, Posicao pos){
+	/**@author Elizio e Nael
+	 * Método construtor da classe Jogador
+	 *  
+	 */
+	public Jogador(String nome, String numero, String posicao) {
 		this.nome = nome;
 		this.numero = numero;
-		this.pos = pos;
-	}
-	public Jogador(){
-		
+		this.posicao = posicao;
 	}
 	
-	public Posicao getPos() {
-		return pos;
-	}
-	public void setPos(Posicao pos) {
-		this.pos = pos;
-	}
+	/**@author Elizio e nael
+	 * Métodos getters e setters
+	 * 
+	 */
 	public String getNome() {
 		return nome;
 	}
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	public int getNumero() {
+	public String getNumero() {
 		return numero;
 	}
-	public void setNumero(int numero) {
+	public void setNumero(String numero) {
 		this.numero = numero;
 	}
-	
-	
-	
+	public String getPosicao() {
+		return posicao;
+	}
+	public void setPosicao(String posicao) {
+		this.posicao = posicao;
+	}
 }
