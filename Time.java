@@ -1,46 +1,60 @@
 package model;
 
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
+
+/**
+ * @author Elizio e Nael
+ * Classe que representa um time
+ */
 
 public class Time {
-	
-	/**
-	 * @author Elizio e Nael 
-	 * Classe respossável por armazenar as informações dos times
-	 * 
-	 */
+
 	private String nome;
-	private ArrayList<Jogador> jogadores = new ArrayList<Jogador>();
+	private ArrayList<Jogador> escalacao;
 	
-	/**
-	 * @author Elizio e Nael
-	 * 
-	 * Método construtor de Time
-	 */
-	public Time(String nome) {
+	public Time(String nome){
 		this.nome = nome;
+		setEscalacao(new ArrayList<Jogador>());
 	}
-	
 	/**
 	 * @author Elizio e Nael
-	 * 
-	 * Método que recebe uma instância de um jogador e adiciona ele a lista de jogadores
+	 * Método que recebe um jogador e verifica se ele ja existe na lista,
+	 * caso exista, ele retorna o índice da lista em que ele se encontra
 	 */
-	public void adicionarJogar(Jogador jogador) {
-		jogadores.add(jogador);
+	public int encontrarJogador(Jogador jogador){
+		for (int i = 0; i < escalacao.size();i++){
+			if(escalacao.get(i).equals(jogador)){
+				return  i;
+			}
+		}return -1;
+	}
+	/**
+	 * @author Elizio e Nael
+	 * Método que recebe um jogador, caso ele ainda não esteja na lista ele o adiciona, caso contrário 
+	 * exibe uma mensagem
+	 */
+	public void adicionarJogador(Jogador jogador){
+		if(encontrarJogador(jogador) == -1){
+			JOptionPane.showMessageDialog(null, "Este jogador já existe!");
+		}else{
+			escalacao.add(jogador);
+		}
+	}
+
+	public ArrayList<Jogador> getEscalacao() {
+		return escalacao;
+	}
+
+	public void setEscalacao(ArrayList<Jogador> escalacao) {
+		this.escalacao = escalacao;
 	}
 	public String getNome() {
 		return nome;
 	}
+
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	public ArrayList<Jogador> getJogadores() {
-		return jogadores;
-	}
-	public void setJogadores(ArrayList<Jogador> jogadores) {
-		this.jogadores = jogadores;
-	}
-	
 
 }

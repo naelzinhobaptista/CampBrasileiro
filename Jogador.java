@@ -1,28 +1,25 @@
 package model;
 
-/**@author Elizio Nael
- * Classe responsável por guardar as informações de um jogador
+/**
+ * @author Elizio e Nael
+ * Classe que representa um jogador
  * 
  */
+
 public class Jogador {
 	private String nome;
 	private String numero;
 	private String posicao;
-	
-	/**@author Elizio e Nael
-	 * Método construtor da classe Jogador
-	 *  
+	/**
+	 * @author Elizio e Noel
+	 * Construtor da classe
 	 */
-	public Jogador(String nome, String numero, String posicao) {
+	public Jogador(String nome, String numero, String posicao){
 		this.nome = nome;
 		this.numero = numero;
 		this.posicao = posicao;
 	}
 	
-	/**@author Elizio e nael
-	 * Métodos getters e setters
-	 * 
-	 */
 	public String getNome() {
 		return nome;
 	}
@@ -41,4 +38,5 @@ public class Jogador {
 	public void setPosicao(String posicao) {
 		this.posicao = posicao;
 	}
+
 }
