@@ -1,41 +1,41 @@
-package controller;
+		package controller;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import javax.swing.JOptionPane;
+import java.util.Observable;
+import java.util.Observer;
+
+import model.Cliente;
 import model.Jogador;
 import model.Partida;
 import model.Time;
 import model.Torcedor;
-import model.Usuario;
 
 /**
  * @author Elizio e Nael
- * Classe em que é implementado o padrão facade
- * ele instacia as classes e faz uso dos metodo de todas as outras classes do pacote controler
+ * Classe em que é implementado o padrão facade, ele instancia as classes
+ * e faz uso dos métodos de todas as outras do pacote controler
  */
-
-public class GerenteGeral {
+public class GerenteGeral implements Observer{
 	
 	private GerenteCadastro gerenteCad;
 	private GerenteCampeonato gerentecamp;
 	private GerenteLogin gerenteLog;
-	/*private GerenteArquivo geremteArq;
-*/	
+	private GerenteArquivo gerenteArq;
+	
 	/**
-	 * @author Elizio e Noel
+	 * @author Elizio e Nael
 	 * Construtor da classe
 	 */
 	public GerenteGeral(){
 		gerenteCad = new GerenteCadastro();
 		gerentecamp = new GerenteCampeonato();
 		gerenteLog = new GerenteLogin();
-		/*setGeremteArq(new GerenteArquivo());*/
+		gerenteArq = new GerenteArquivo();
 	}
 	/**
-	 * @author Elizio e Noel
-	 * Metodo que recebe um torcedor e chama os metodos buscarUsuario e adicionar usuario da classe GerenteCadastro
-	 * e tambem chama o proprio metodo cadastrarTime
+	 * @author Elizio e Nael
+	 * Método que recebe um torcedor e chama os métodos buscarUsuario e adicionarUsuario da classe
+	 * GerenteCadastro, chamando também o próprio método cadastrarTime
 	 */
 	public void cadastrarUsuario(Torcedor user){
 		if(gerenteCad.buscarUsuario(user.getNome()) == -1){
@@ -43,28 +43,36 @@ public class GerenteGeral {
 			cadastrarTime(user.getTime());
 		}
 	}
+	
 	/**
-	 * @author Elizio e Noel
-	 * Metodo que recebe um login e uma senha, ele chama os metodos verifica login para verificar para verificar se
-	 * a senha/login batem com alguma das senha e logins que estão cadastradas, caso bata, ele insere o usuario correspondente
-	 * a senha/login em usuario logado que esta na classe login, depois, masca a booleana logado como true e adiciona o time do usuario
-	 * depois disto retona true, caso a senha/login não batam retorna false
+	 * @author Elizio e Nael
+	 * Método que recebe um login e uma senha, chama os métodos verificaLogin para verificar se a senha e login
+	 * batem com algumas já cadastradas, caso existam, ele insere o usuário correspondente a senha e login
+	 * em usuário logado que está na classe login, depois, masca a booleana logado como true e adiciona 
+	 * o time do usuario, em seguida retona true, caso a senha e login não batam retorna false
 	 */
 	public boolean logar(String login, String senha){
 		int user = gerenteLog.verificaLogin(login, senha, gerenteCad.getUsuarios());
 		if(user > -1){
 			gerenteLog.setUsuarioLogado((Torcedor)gerenteCad.getUsuarios().get(user));
+			((Torcedor) gerenteLog.getUsuarioLogado()).adicionarObservador(this);
 			gerenteLog.setLogado(true);
-			gerentecamp.getTabela().setTime(((Torcedor) gerenteLog.getUsuarioLogado()).getTime());
+			gerentecamp.setTimesCadastrados(carregarTimes());
+			int timeint = gerentecamp.buscarTimeNome(gerenteCad.getUsuarios().get(user).getTime().getNome());
+			System.out.println(timeint);
+			((Torcedor) gerenteLog.getUsuarioLogado()).getTime().setEscalacao(gerentecamp.getTimesCadastrados().get(timeint).getEscalacao());
+			//gerentecamp.getTimesCadastrados().add((((Torcedor) gerenteLog.getUsuarioLogado()).getTime()));
 			return true;
 		}else{
 			return false;
 		}
 	}
+	
 	/**
-	 * @author Elizio e Noel
-	 * Metodo que recebe um jogador e um torcedo, ele chama o metodo de GerenteCampeonato buscarJogador e caso ele
-	 * não encontre nenhum jogador este nome ele adiciona a lista de jogadores que esta no time do ususario
+	 * @author Elizio e Nael
+	 * Método que recebe um jogador e um torcedor, chama o método da classe GerenteCampeonato, buscarJogador e 
+	 * caso ele não encontre nenhum jogador com este nome, ele adiciona a lista de jogadores que está 
+	 * no time do usuário
 	 */
 	public boolean adicionarJogador(Jogador jogador, Torcedor user){
 		int jogadorNumero = gerentecamp.buscarJogador(jogador, user);
@@ -75,17 +83,19 @@ public class GerenteGeral {
 			return false;
 		}
 	}
+	
 	/**
 	 * @author Elizio e Nael
-	 * Metodo que apenas retorna o resultado do metodo calcularScore da classe GerenteCampeonato
-	 * gerando o score de vitoria, empates e derrotas do time com aquele nome
+	 * Método respoável por retornar o resultado do método calcularScore da classe GerenteCampeonato
+	 * gerando o score de vitória, empates e derrotas do time com aquele nome
 	 */
 	public int[] gerarScore(String nome){
 		return gerentecamp.calcularScore(nome);
 	}
+	
 	/**
 	 * @author Elizio e Nael
-	 * Método que recebe um time, caso ele não exista na lista de times cadastrados o adiciona
+	 * Método que recebe um time, caso ele não exista na lista de times cadastrados, o adiciona
 	 */
 	public void cadastrarTime(Time time){
 		if(gerentecamp.buscarTimeNome(time.getNome()) == -1){
@@ -93,23 +103,51 @@ public class GerenteGeral {
 		}
 	}
 	
-	/*public void salvarTimes(ArrayList<Time> times){
-		ArrayList<String> timesEscrever = geremteArq.formatarTimeEscrever(times);
-		geremteArq.escrever(timesEscrever, "Times.txt");
+	public void salvarTimes(ArrayList<Time> times){
+		ArrayList<String> timesEscrever = gerenteArq.formatarTimeEscrever(times);
+		//System.out.println(timesEscrever.toString());
+		gerenteArq.escrever(timesEscrever, "Times.txt");
 	}
+	
 	public ArrayList<Time> carregarTimes(){
-		ArrayList<Time> times = geremteArq.formartarTimesLer(geremteArq.ler("Times.txt"));
-		System.out.println(times.size());
+		ArrayList<Time> times = gerenteArq.formartarTimesLer(gerenteArq.ler("Times.txt"));
 		return times;
 	}
-	public void salvarPartidas(ArrayList<Partida> partidas){
-		ArrayList<String> partidasEscrever = geremteArq.formatarPartidasEscreve(partidas);
-		geremteArq.escrever(partidasEscrever, "Partida.txt");
+	
+	public void salvarTorcedor(ArrayList<Torcedor> usuarios){
+		ArrayList<String> userEscrever = gerenteArq.formatarUsuariosEscrever(usuarios);
+		gerenteArq.escrever(userEscrever, "Usuarios.txt");
 	}
+	
+	public ArrayList<Torcedor> carregarTorcedor(){
+		ArrayList<Torcedor> torcedores = gerenteArq.formatarUsuariosLer(gerenteArq.ler("Usuarios.txt"));
+		return torcedores;
+	}
+	
+	public void salvarPartidas(ArrayList<Partida> partidas){
+		ArrayList<String> partidasEscrever = gerenteArq.formatarPartidasEscreve(partidas);
+		gerenteArq.escrever(partidasEscrever, "Partida.txt");
+	}
+	
 	public ArrayList<Partida> carregarPartidas(){
-		ArrayList<Partida> partidas = geremteArq.formatarPartidasLer(geremteArq.ler("Partida.txt"));
+		ArrayList<Partida> partidas = gerenteArq.formatarPartidasLer(gerenteArq.ler("Partida.txt"));
 		return partidas;
-	}*/
+	}
+	
+	public void deslogar(){
+		//System.out.println(gerentecamp.getTimesCadastrados().get(0).getNome());
+		int timeIndex = gerentecamp.buscarTimeNome(((Torcedor) gerenteLog.getUsuarioLogado()).getTime().getNome());
+		//System.out.println(gerentecamp.getTimesCadastrados().size());
+		if(timeIndex > -1){
+			gerentecamp.getTimesCadastrados().get(timeIndex).setEscalacao(((Torcedor) gerenteLog.getUsuarioLogado()).getTime().getEscalacao());;
+			salvarTimes(gerentecamp.getTimesCadastrados());
+		}
+		
+	}
+	public String[] imprimeTabela(String nome){
+		return gerentecamp.gerarTabela(nome, gerentecamp.getTabela().getPartidas());
+	}
+	
 	public GerenteCadastro getGerenteCad(){
 		return gerenteCad;
 	}
@@ -118,13 +156,14 @@ public class GerenteGeral {
 		this.gerenteCad = gerenteCad;
 	}
 
-	public GerenteCampeonato getGerenteCamp() {
+	public GerenteCampeonato getGerentecamp() {
 		return gerentecamp;
 	}
 
 	public void setGerentecamp(GerenteCampeonato gerentecamp) {
 		this.gerentecamp = gerentecamp;
 	}
+	
 	public GerenteLogin getGerenteLog() {
 		return gerenteLog;
 	}
@@ -133,13 +172,23 @@ public class GerenteGeral {
 		this.gerenteLog = gerenteLog;
 	}
 
-	/**public GerenteArquivo getGeremteArq() {
-		return geremteArq;
+	public GerenteArquivo getGerenteArq() {
+		return gerenteArq;
 	}
 
-	public void setGeremteArq(GerenteArquivo geremteArq) {
-		this.geremteArq = geremteArq;
+	public void setGerenteArq(GerenteArquivo geremteArq) {
+		this.gerenteArq = geremteArq;
 	}
-**/
+	
+	public void update(Observable torceInfSubject, Object arg1) {
+		if(torceInfSubject instanceof Cliente){
+			Torcedor torcedor = (Torcedor) torceInfSubject;
+			gerenteCad.getUsuarios().remove(gerenteCad.buscarLogin(torcedor.getLogin()));
+			gerenteCad.getUsuarios().add(torcedor);
+			salvarTorcedor(gerenteCad.getUsuarios());
+			
+		}
+		
+	}
 
 }

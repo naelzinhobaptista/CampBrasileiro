@@ -9,13 +9,14 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import model.Partida;
 import model.Time;
+import model.Torcedor;
 import model.Jogador;
-
 
 /**
  * @author Elizio e Nael
- * 
- **/
+ * Classe responsável por gravar, formatar, recuperar e remontar os dados do sistema.
+ */
+
 public class GerenteArquivo {
 	
 	/**
@@ -59,33 +60,36 @@ public class GerenteArquivo {
 	public ArrayList<String> formatarTimeEscrever(ArrayList<Time> times){
 		ArrayList<String> timesSalvar = new ArrayList<String>();
 		for(int i =0;i<times.size();i++){
-			ArrayList<String> escalacao = new ArrayList<String>();
+			String time = new String();
+			time =times.get(i).getNome()+"/";
+			
 			for(int e = 0;e<times.get(i).getEscalacao().size();e++){
-				escalacao.add(times.get(i).getEscalacao().get(e).getNome()
-						+" ; "+times.get(i).getEscalacao().get(e).getNumero()
-						+" ; "+times.get(i).getEscalacao().get(e).getPosicao());
-			}String jog = times.get(i).getNome();
-			for(int e = 0;e<escalacao.size();e++){
-				jog = jog+" ; "+escalacao.get(e);
+				time+=(times.get(i).getEscalacao().get(e).getNome()
+						+","+times.get(i).getEscalacao().get(e).getNumero()
+						+","+times.get(i).getEscalacao().get(e).getPosicao()+";");
 			}
-			System.out.println(jog);
-			timesSalvar.add(jog);
+			timesSalvar.add(time);
 								
-		}System.out.println(timesSalvar.toString());	
+		}	
 		return timesSalvar;
 	}
 	public ArrayList<Time> formartarTimesLer(ArrayList<String> linha){
 		ArrayList<Time> times = new ArrayList<Time>();
 		for(int i = 0; i< linha.size(); i++){
-			String[] atributos = linha.get(i).split(" ; ");
+			String[] atributos = linha.get(i).split("/");
 			Time time = new Time(atributos[0]);
-			ArrayList<Jogador> escalacao = new ArrayList<Jogador>();
-			for(int e = 1; e<atributos.length;e = e+3){
-				Jogador jogador = new Jogador(atributos[e], atributos[e+1],atributos[e+2]);
-				escalacao.add(jogador);
-			}time.setEscalacao(escalacao);
+			if(atributos.length > 1){
+				String[] escalacao = atributos[1].split(";");
+				for(int e = 0; e<escalacao.length;e++){
+					String[] esctime = escalacao[e].split(",");
+					time.getEscalacao().add(new Jogador(esctime[0], esctime[1], esctime[2]));
+					
+				}
+			}
+			
 			times.add(time);
-			}return times;
+			}
+		return times;
 		}
 	
 	public ArrayList<String> formatarPartidasEscreve(ArrayList<Partida> partidas){
@@ -109,6 +113,21 @@ public class GerenteArquivo {
 		
 	}
 	
+	public ArrayList<String> formatarUsuariosEscrever(ArrayList<Torcedor> torce){
+		ArrayList<String> torcedores = new ArrayList<String>();
+		for(int i = 0; i<torce.size();i++){
+			torcedores.add(torce.get(i).getNome()+" ; "+torce.get(i).getLogin()+" ; "+torce.get(i).getSenha()+" ; "
+			+torce.get(i).getTime().getNome());
+		}return torcedores;
+	}
 	
+	public ArrayList<Torcedor> formatarUsuariosLer(ArrayList<String> linha){
+		ArrayList<Torcedor> torcedores = new ArrayList<Torcedor>();
+		for(int i=0;i<linha.size();i++){
+			String[] atributos = linha.get(i).split(" ; ");
+			torcedores.add(new Torcedor(atributos[0], atributos[1], atributos[2], new Time(atributos[3])));
+		}return torcedores;
+		
+	}
 
 }

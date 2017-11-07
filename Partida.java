@@ -4,8 +4,8 @@ package model;
  * @author Elizio e Nael
  * Classe que representa uma partida
  */
+
 public class Partida {
-	
 	private Time time_da_casa;
 	private Time time_visitante;
 	private int gols_casa;
@@ -14,21 +14,25 @@ public class Partida {
 	
 	/**
 	 * @author Elizio e Nael
-	 * Construtor da classe
+	 * Construtor da clsse
 	 */
 	public Partida(Time timec, Time timev, int gc, int gv){
 		this.time_da_casa = timec;
 		this.time_visitante = timev;
 		this.gols_casa = gc;
 		this.gols_visitante = gv;
+		
 		if (gc > gv){
-			this.resultado = "Vitoria de: "+gc;
-		}else if(gc == gv){
+			this.resultado = "Vitória de: "+gc;
+		}
+		else if(gc == gv){
 			this.resultado = "Empate";
-		}else if(gc < gv){
-			this.resultado = "Vitoria de: "+gv;
+		}
+		else if(gc < gv){
+			this.resultado = "Vitória de: "+gv;
 		}
 	}
+	
 	public Time getTime_da_casa() {
 		return time_da_casa;
 	}

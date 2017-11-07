@@ -7,10 +7,10 @@ import java.util.ArrayList;
  * Classe que representa uma tabela e armazena as partidas
  */
 public class Tabela {
-	
 	private ArrayList<Partida> partidas;
 	private Time time;
 	private ArrayList<Time> timesAcompanhados;
+	
 	/**
 	 * @author Elizio e Nael
 	 * Construtor da classe
@@ -22,11 +22,11 @@ public class Tabela {
 	
 	/**
 	 * @author Elizio e Nael
-	 * Método que recebe um time e caso ele ainda não conste em timeAcompanhados  ele retorna false
+	 * Método que recebe um time, caso ele não conste em timeAcompanhados, retorna false
 	 */
 	public void adicionarTime(Time time){
 		boolean tem = false;
-		for (int i =0; i<timesAcompanhados.size();i++){
+		for (int i = 0; i< timesAcompanhados.size();i++){
 			if (time.equals(timesAcompanhados.get(i))){
 				tem = true;
 			}
@@ -34,6 +34,7 @@ public class Tabela {
 			timesAcompanhados.add(time);
 		}
 	}
+	
 	/**
 	 * @author Elizio e Nael
 	 * Método que recebe uma partida e adiciona na lista de partidas
@@ -41,9 +42,10 @@ public class Tabela {
 	public void adicionarPartida(Partida partida){
 		partidas.add(partida);
 	}
+	
 	/**
 	 * @author Elizio e Nael
-	 * Método que recebe um nome de time e busca esse nome na lista de times cadastrados
+	 * Método que recebe um nome de time e busca esse nome na lista de times cadastrados,
 	 * caso encontre, retorna o time, caso contrário retorna um time vazio
 	 */
 	public Time buscarTimeNome(String nome){
@@ -62,6 +64,7 @@ public class Tabela {
 	public void setPartidas(ArrayList<Partida> partidas) {
 		this.partidas = partidas;
 	}
+	
 	public Time getTime() {
 		return time;
 	}

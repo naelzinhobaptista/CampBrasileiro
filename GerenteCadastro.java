@@ -5,9 +5,8 @@ import model.Torcedor;
 
 /**
  * @author Elizio e Nael
- * Classe responsável por gerenciar todos os cadastros
+ * Classe responsável por gerenciar os cadastros
  */
-
 public class GerenteCadastro {
 	
 private ArrayList<Torcedor> usuarios;
@@ -21,20 +20,28 @@ private ArrayList<Torcedor> usuarios;
 	}
 	/**
 	 * @author Elizio e Nael
-	 * Método que recebe um nome e faz uma busca pelo nome na lista de usuarios
-	 * caso encontre retorna o índice do usuario na lista
-	 * caso contrário retorna -1
+	 * Método que recebe um nome e faz a busca pelo nome na lista de usuários caso 
+	 * encontre retorna o índice do usuário na lista, caso contrário retorna -1
 	 */
 	public int buscarUsuario(String nome){
 		for(int i = 0; i<usuarios.size(); i++){
 			if(nome.equals(usuarios.get(i).getNome().equals(nome))){
+				System.out.println("aqui");
+				return i;
+			}
+		}return -1;
+	}
+	
+	public int buscarLogin(String login){
+		for(int i = 0; i<usuarios.size(); i++){
+			if(login.equals(usuarios.get(i).getLogin())){
 				return i;
 			}
 		}return -1;
 	}
 	/**
 	 * @author Elizio e Nael
-	 * Método que recebe um usuario e o adiciona na lista de usuário
+	 * Método que recebe um usuário e o adiciona na lista de usuários
 	 */
 	public void adicionarUsuario(Torcedor usuario){
 		usuarios.add(usuario);

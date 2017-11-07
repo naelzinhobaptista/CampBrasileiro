@@ -1,19 +1,19 @@
 package model;
 
+import java.util.Observer;
+
 /**
  * @author Elizio e Nael
  * Classe reponsável por representar um torcedor
  */
-
-public class Torcedor extends Cliente {
-	
+public class Torcedor extends Cliente{
 	private Time time;
-
+	
 	/**
 	 * @author Elizio e Nael
 	 * Construtor da classe
 	 */
-	public Torcedor (String nome,String login, String senha, Time time){
+	public Torcedor(String nome,String login, String senha, Time time){
 		this.nome = nome;
 		this.login = login;
 		this.senha = senha;
@@ -28,6 +28,9 @@ public class Torcedor extends Cliente {
 	public void setTime(Time time) {
 		this.time = time;
 	}
-
-
+	
+	public void adicionarObservador(Observer observer){
+		addObserver(observer);
+	}
+	
 }

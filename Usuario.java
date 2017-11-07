@@ -4,7 +4,7 @@ public interface Usuario {
 	
 	/**
 	 * @author Elizio e Nael
-	 * Interface usada para representar um usuário genérico
+	 * Interface usada para representar um usuario genérico
 	 */
 	public String getNome();
 	public void setNome(String nome);

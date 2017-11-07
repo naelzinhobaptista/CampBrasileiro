@@ -1,5 +1,6 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
@@ -7,9 +8,7 @@ import javax.swing.JOptionPane;
  * @author Elizio e Nael
  * Classe que representa um time
  */
-
-public class Time {
-
+public class Time implements Serializable{
 	private String nome;
 	private ArrayList<Jogador> escalacao;
 	
@@ -17,10 +16,11 @@ public class Time {
 		this.nome = nome;
 		setEscalacao(new ArrayList<Jogador>());
 	}
+	
 	/**
 	 * @author Elizio e Nael
-	 * MÈtodo que recebe um jogador e verifica se ele ja existe na lista,
-	 * caso exista, ele retorna o Ìndice da lista em que ele se encontra
+	 * M√©todo que recebe um jogador e verifica se ele j√° existe na lista,
+	 * caso exista, retorna o √≠ndice da lista em que ele se encontra
 	 */
 	public int encontrarJogador(Jogador jogador){
 		for (int i = 0; i < escalacao.size();i++){
@@ -29,14 +29,15 @@ public class Time {
 			}
 		}return -1;
 	}
+	
 	/**
 	 * @author Elizio e Nael
-	 * MÈtodo que recebe um jogador, caso ele ainda n„o esteja na lista ele o adiciona, caso contr·rio 
-	 * exibe uma mensagem
+	 * M√©todo que recebe um jogador, caso ainda n√£o esteja na lista, adiciona-o,
+	 * caso contrario exibe uma mensagem
 	 */
 	public void adicionarJogador(Jogador jogador){
 		if(encontrarJogador(jogador) == -1){
-			JOptionPane.showMessageDialog(null, "Este jogador j· existe!");
+			JOptionPane.showMessageDialog(null, "Este jogador jÔøΩ existe!");
 		}else{
 			escalacao.add(jogador);
 		}
@@ -49,6 +50,7 @@ public class Time {
 	public void setEscalacao(ArrayList<Jogador> escalacao) {
 		this.escalacao = escalacao;
 	}
+	
 	public String getNome() {
 		return nome;
 	}
@@ -56,5 +58,4 @@ public class Time {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-
 }
